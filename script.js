@@ -88,7 +88,6 @@ let appData = {
     appData.budget = +salaryAmount.value;
     appData.getExpenses();
     appData.getImcome();
-    //appData.asking();
     appData.getExpensesMonth();
     appData.getAddExpenses();
     appData.getAddIncome();
@@ -116,7 +115,7 @@ let appData = {
       return;
     } else {
       start.style.backgroundColor = '#353a43';
-      appData.start();
+      this.start();
 
     }
   },
@@ -141,7 +140,7 @@ let appData = {
       let itemExpenses = item.querySelector('.expenses-title').value;
       let cashExpenses = item.querySelector('.expenses-amount').value;
       if (itemExpenses !== '' && cashExpenses !== '') {
-        appData.expenses[itemExpenses] = cashExpenses;
+        this.expenses[itemExpenses] = cashExpenses;
       }
     });
   },
@@ -150,14 +149,14 @@ let appData = {
       let itemIncome = item.querySelector('.income-title').value;
       let cashIncome = item.querySelector('.income-amount').value;
       if (itemIncome !== '' && cashIncome !== '') {
-        appData.income[itemIncome] = cashIncome;
+        this.income[itemIncome] = cashIncome;
       }
     });
     let sum = 0;
-    for (let key in appData.income) {
-      sum += parseInt(appData.income[key]);
+    for (let key in this.income) {
+      sum += parseInt(this.income[key]);
     }
-    appData.incomeMonth = sum;
+    this.incomeMonth = sum;
 
   },
   getAddExpenses: function () {
@@ -165,7 +164,7 @@ let appData = {
     addExpenses.forEach(function (item) {
       item = item.trim();
       if (item !== '') {
-        appData.addExpenses.push(item);
+        this.addExpenses.push(item);
       }
     });
   },
@@ -173,44 +172,44 @@ let appData = {
     inpuIncomeitem.forEach(function (item) {
       let itemValue = item.value.trim();
       if (item !== '') {
-        appData.addIncome.push(itemValue);
+        this.addIncome.push(itemValue);
       }
     });
   },
   asking: function () {
-    appData.deposit = confirm('Есть ли у вас депозит в банке?');
+    this.deposit = confirm('Есть ли у вас депозит в банке?');
   },
 
   getExpensesMonth: function () {
     let sum = 0;
-    for (let key in appData.expenses) {
-      sum += parseInt(appData.expenses[key]);
+    for (let key in this.expenses) {
+      sum += parseInt(this.expenses[key]);
     }
-    appData.expensesAmount = sum;
+    this.expensesAmount = sum;
   },
   getBudget: function () {
-    appData.accumulatedMonth = appData.budget + appData.incomeMonth - appData.expensesAmount;
-    appData.budgetDay = Math.ceil(appData.accumulatedMonth / 30);
+    this.accumulatedMonth = this.budget + this.incomeMonth - this.expensesAmount;
+    this.budgetDay = Math.ceil(this.accumulatedMonth / 30);
     return;
   },
   getTargetMonth: function () {
-    return targetAmount.value / appData.accumulatedMonth;
+    return targetAmount.value / this.accumulatedMonth;
   },
   getInfoDeposit: function () {
-    if (appData.deposit) {
+    if (this.deposit) {
       do {
-        appData.percentDeposit = prompt('Какой годовой процент?', '10');
+        this.percentDeposit = prompt('Какой годовой процент?', '10');
       }
-      while (!isNumber(appData.percentDeposit));
+      while (!isNumber(this.percentDeposit));
       do {
-        appData.moneyDeposit = prompt('Какая сумма заложена?', '10000');
+        this.moneyDeposit = prompt('Какая сумма заложена?', '10000');
       }
-      while (!isNumber(appData.moneyDeposit));
+      while (!isNumber(this.moneyDeposit));
 
     }
   },
   calcSavedMoney: function () {
-    return appData.accumulatedMonth * periodSelect.value;
+    return this.accumulatedMonth * periodSelect.value;
   }
 };
 start.addEventListener('click', appData.getStart);
