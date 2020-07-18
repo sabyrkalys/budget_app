@@ -214,12 +214,10 @@ let appData = {
   setDisabled: function () {
     const elemsDataInput = [...dataInput.getElementsByTagName('*')].filter(elem => elem.tagName == 'INPUT' && elem.className !== 'deposit-amount' && elem.className !== 'deposit-percent' && elem.type !== 'checkbox');
     const stopInput = elemsDataInput.every(elem => elem.value);
-    if (stopInput !== false) {
-      start.style.display = 'none';
-      cancel.style.display = 'block';
-      for (let i = 0; i < elemsDataInput.length; i++) {
-        elemsDataInput[i].setAttribute('disabled', 'disabled');
-      }
+    start.style.display = 'none';
+    cancel.style.display = 'block';
+    for (let i = 0; i < elemsDataInput.length; i++) {
+      elemsDataInput[i].setAttribute('disabled', 'disabled');
     }
   },
   reset: function () {
