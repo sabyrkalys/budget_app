@@ -211,19 +211,9 @@ let appData = {
   calcSavedMoney: function () {
     return this.accumulatedMonth * periodSelect.value;
   },
-};
-start.addEventListener('click', appData.getStart.bind(appData));
-expensesBtn.addEventListener('click', appData.addExpensesBlock);
-incomeBtn.addEventListener('click', appData.addIncomeBlock);
-periodSelect.oninput = function () {
-  periodAmount.innerHTML = periodSelect.value;
-};
-calc.addEventListener('click', function () {
-  const inputs = [...document.querySelectorAll('input[type=text]')];
-  const elemsDataInput = [...dataInput.getElementsByTagName('*')].filter(elem => elem.tagName == 'INPUT' && elem.className !== 'deposit-amount' && elem.className !== 'deposit-percent' && elem.type !== 'checkbox');
-  const stopInput = elemsDataInput.every(elem => elem.value);
-  const target = event.target;
-  if (target.closest('#start')) {
+  setDisabled: function () {
+    const elemsDataInput = [...dataInput.getElementsByTagName('*')].filter(elem => elem.tagName == 'INPUT' && elem.className !== 'deposit-amount' && elem.className !== 'deposit-percent' && elem.type !== 'checkbox');
+    const stopInput = elemsDataInput.every(elem => elem.value);
     if (stopInput !== false) {
       start.style.display = 'none';
       cancel.style.display = 'block';
@@ -231,10 +221,12 @@ calc.addEventListener('click', function () {
         elemsDataInput[i].setAttribute('disabled', 'disabled');
       }
     }
-  } else if (target.closest('#cancel')) {
+  },
+  reset: function () {
+    const elemsDataInput = [...dataInput.getElementsByTagName('*')].filter(elem => elem.tagName == 'INPUT' && elem.className !== 'deposit-amount' && elem.className !== 'deposit-percent' && elem.type !== 'checkbox');
+    const inputs = [...document.querySelectorAll('input[type=text]')];
     start.style.display = 'block';
     cancel.style.display = 'none';
-    //const allInputs = inputs.concat(elemsDataInput);
     for (let i = 0; i < inputs.length; i++) {
       inputs[i].value = '';
     }
@@ -242,4 +234,12 @@ calc.addEventListener('click', function () {
       elemsDataInput[i].removeAttribute('disabled');
     }
   }
-});
+};
+start.addEventListener('click', appData.getStart.bind(appData));
+expensesBtn.addEventListener('click', appData.addExpensesBlock);
+incomeBtn.addEventListener('click', appData.addIncomeBlock);
+periodSelect.oninput = function () {
+  periodAmount.innerHTML = periodSelect.value;
+};
+start.addEventListener('click', appData.setDisabled);
+cancel.addEventListener('click', appData.reset);
